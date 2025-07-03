@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+                padding-top: 50px;
+            }
+            a {
+                text-decoration: none;
+                padding: 15px 25px;
+                background-color: #4285f4;
+                color: white;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Welcome</h1>
+        <p>Please log in to continue.</p>
+        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+    </body>
+</html>
