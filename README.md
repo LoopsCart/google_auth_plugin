@@ -21,6 +21,7 @@ AUTHENTICATION_BACKENDS = (
 
 # this might not work, but keep
 LOGIN_REDIRECT_URL = "/home/"
+# this definitely works
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/home/"
 
 # to get data from google or something like that

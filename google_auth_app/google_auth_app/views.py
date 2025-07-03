@@ -1,6 +1,7 @@
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,17 +10,19 @@ from .models import GoogleCredential
 from .serializers import GoogleCredentialSerializer
 
 
+def google_login_view(request):
+    """
+    Custom API endpoint to begin Google OAuth2 login.
+    """
+    login_url = reverse("social:begin", args=["google-oauth2"])
+    return redirect(login_url)
+
+
 def login_view(request):
     """
-    Renders the login page.
+    Renders the login page
     """
     return render(request, "google_auth_app/login.html")
-
-
-def wsgi_meta_view(request):
-    meta = dict(request.META)
-    filtered_meta = {k: str(v) for k, v in meta.items()}  # Convert all values to str
-    return JsonResponse(filtered_meta)
 
 
 def home_view(request):
