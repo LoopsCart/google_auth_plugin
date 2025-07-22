@@ -1,5 +1,7 @@
 # To install google-auth-app
 
+pip install social-auth-app-django
+
 ```python
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -24,7 +26,7 @@ LOGIN_REDIRECT_URL = "/home/"
 # this definitely works
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/home/"
 
-# to get data from google or something like that
+# needed to specify what data to get from google
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
@@ -33,6 +35,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ["id", "email", "name", "picture"]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
+    "access_type": "offline",  # Essential for getting a refresh token
+    "prompt": "consent",  # Ensures consent screen is shown if needed
+}
 
 ```
 
