@@ -1,8 +1,7 @@
 # import logging
 
+from google_auth_plugins.models import GoogleCredential
 from social_core.backends.google import GoogleOAuth2
-
-from google_auth_app.models import GoogleCredential
 
 # logger = logging.getLogger(__name__)
 
