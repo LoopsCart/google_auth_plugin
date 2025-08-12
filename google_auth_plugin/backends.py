@@ -1,5 +1,6 @@
 # import logging
 
+from django.core.exceptions import ImproperlyConfigured
 from social_core.backends.google import GoogleOAuth2
 
 from google_auth_plugin.models import GoogleCredential
@@ -23,3 +24,13 @@ class DynamicGoogleOAuth2(GoogleOAuth2):
             except GoogleCredential.DoesNotExist:
                 return default
         return super().setting(name, default)
+
+
+class TenantAwareGoogleOAuth2(GoogleOAuth2):
+    def get_key_and_secret(self):
+        current_domain = self.strategy.request_host()
+        try:
+            creds = GoogleCredential.objects.get(tenant_domain=current_domain)
+            return creds.client_id, creds.client_secret
+        except GoogleCredential.DoesNotExist:
+            raise ImproperlyConfigured(f"No Google credentials configured for domain {current_domain}")

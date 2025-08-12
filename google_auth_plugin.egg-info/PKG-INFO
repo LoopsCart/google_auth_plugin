@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: google_auth_plugin
+Version: 0.1.0
+Summary: A reusable Django app for social authentication.
+Author: Your Name
+Author-email: your.email@example.com
+Classifier: Framework :: Django
+Classifier: Programming Language :: Python :: 3
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: summary
