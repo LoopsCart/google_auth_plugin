@@ -15,4 +15,5 @@ google_auth_plugin.egg-info/SOURCES.txt
 google_auth_plugin.egg-info/dependency_links.txt
 google_auth_plugin.egg-info/top_level.txt
 google_auth_plugin/migrations/0001_initial.py
+google_auth_plugin/migrations/0002_googlecredential_redirect_uri.py
 google_auth_plugin/migrations/__init__.py
