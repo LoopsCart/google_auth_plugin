@@ -7,4 +7,4 @@ from .models import GoogleCredential
 class GoogleCredentialSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoogleCredential
-        fields = ["client_id", "client_secret"]  # Add 'redirect_uri' if you included it
+        fields = ["client_id", "client_secret", "redirect_uri"]
