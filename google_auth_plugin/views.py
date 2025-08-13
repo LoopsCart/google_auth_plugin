@@ -156,8 +156,6 @@ def logout_view(request):
 
 
 class GoogleCredentialAPIView(APIView):
-    # permission_classes = [IsAdminUser]  # Restrict to admin users
-
     def get_object(self):
         try:
             return GoogleCredential.objects.get()
@@ -174,20 +172,40 @@ class GoogleCredentialAPIView(APIView):
     def post(self, request, *args, **kwargs):
         # if self.get_object():
         #     return Response({"detail": "Google credentials already exist. Use PUT to update."}, status=status.HTTP_409_CONFLICT)
-        # serializer = GoogleCredentialSerializer(data=request.data)
-        if serializer.is_valid():
-            try:
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            except ValueError as e:  # Catch the single instance enforcement error
-                return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        credential, created = GoogleCredential.objects.update_or_create(
+            id=1,  # or use some logic to always target the first/only instance
+            defaults={
+                'client_id': request.data.get('client_id'),
+                'client_secret': request.data.get('client_secret'),
+                'redirect_uri': request.data.get('redirect_uri'),
+            }
+        )
+        serializer = GoogleCredentialSerializer(credential)
+        return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+        # if serializer.is_valid():
+        #     try:
+        #         serializer.save()
+        #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #     except ValueError as e:  # Catch the single instance enforcement error
+        #         return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, *args, **kwargs):
         credential = self.get_object()
         if not credential:
             return Response({"detail": "Google credentials not found. Use POST to create."}, status=status.HTTP_404_NOT_FOUND)
-        serializer = GoogleCredentialSerializer(credential, data=request.data, partial=False)  # partial=False for full update
+        serializer = GoogleCredentialSerializer(credential, data=request.data, partial=False)  
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, *args, **kwargs):
+        credential = self.get_object()
+        if not credential:
+            return Response({"detail": "Google credentials not found. Use POST to create."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = GoogleCredentialSerializer(credential, data=request.data, partial=True)  
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
