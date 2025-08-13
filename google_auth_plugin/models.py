@@ -6,10 +6,10 @@ class GoogleCredential(models.Model):
     client_secret = models.CharField(max_length=255, help_text="Google OAuth2 Client Secret")
     redirect_uri = models.URLField(max_length=255, blank=True, null=True)
 
-    # Enforce only one instance
     def save(self, *args, **kwargs):
-        if GoogleCredential.objects.exists() and not self.pk:
-            raise ValueError("There can be only one GoogleCredential instance.")
+        existing = GoogleCredential.objects.first()
+        if existing and not self.pk:
+            self.pk = existing.pk  # overwrite existing instead of creating new
         super().save(*args, **kwargs)
 
     def __str__(self):

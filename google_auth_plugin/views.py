@@ -172,9 +172,9 @@ class GoogleCredentialAPIView(APIView):
         return Response({"detail": "Google credentials not found."}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, *args, **kwargs):
-        if self.get_object():
-            return Response({"detail": "Google credentials already exist. Use PUT to update."}, status=status.HTTP_409_CONFLICT)
-        serializer = GoogleCredentialSerializer(data=request.data)
+        # if self.get_object():
+        #     return Response({"detail": "Google credentials already exist. Use PUT to update."}, status=status.HTTP_409_CONFLICT)
+        # serializer = GoogleCredentialSerializer(data=request.data)
         if serializer.is_valid():
             try:
                 serializer.save()
