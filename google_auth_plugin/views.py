@@ -158,7 +158,7 @@ def logout_view(request):
 class GoogleCredentialAPIView(APIView):
     def get_object(self):
         try:
-            return GoogleCredential.objects.get()
+            return GoogleCredential.objects.get().first()
         except GoogleCredential.DoesNotExist:
             return None
 
